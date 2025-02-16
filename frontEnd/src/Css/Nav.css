@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+
+
+.simplefont {
+    width: 77px;
+    height: 21px;
+    font-variant: normal;
+}
+
+.ul-nav {
+    width: 100%;
+    /* position: absolute; */
+    /* z-index: 5; */
+}
+
+.ul-nav-menu {
+
+    width: 50vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 3;
+    align-items: flex-start;
+    top: 0;
+    left: 0;
+    background-color: pink;
+    /* background-color: #ffffff; */
+    padding: 10px 20px;
+    margin: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.5s forwards; /* Animation for sliding in */
+    visibility: hidden; 
+
+}
+
+
+@keyframes slideIn {
+    0% {
+      left: -250px; /* Start off-screen */
+      visibility: visible; /* Ensure it's visible when animation starts */
+    }
+    100% {
+      left: 0; /* End at its normal position */
+      visibility: visible;
+    }
+  }
+
+
+
+.li {
+    /* width: 100%; */
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333; /* Dark gray color for text */
+    cursor: pointer;
+    font-family: "Roboto", serif;
+    font-optical-sizing: auto;
+
+}
+
+.li:hover{
+    color: #007BFF;
+}
+
+.menu-icon {
+    margin: 13px auto;
+    height: 50px;
+    width: 50px;
+    left: 0;
+    position: absolute;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: flex;
+}
+
+/* 390*844 */
+
+#navbarmain {
+    position: fixed;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+
+
+
+.cartIcon{
+  width: 61px;
+  right: 50px;
+  top: 0;
+  position: absolute;
+}

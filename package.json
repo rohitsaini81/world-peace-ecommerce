@@ -1,0 +1,11 @@
+{
+  "name": "WebDev",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run start --prefix backEnd\" \"npm run dev --prefix frontEnd\"",
+    "install": "npm run install --prefix backEnd && npm run install --prefix frontEnd"
+  },
+  "devDependencies": {
+    "concurrently": "^6.5.1"
+  }
+}
