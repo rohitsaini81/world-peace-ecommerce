@@ -40,6 +40,8 @@ function Nav() {
                     <li className='li'>Who We Are</li>
                     <li className='li'>My Profile</li>
                     <li className='li'>Basket</li>
+                    <li className='li'><Link to="/login">Sign In</Link></li>
+
                 </ul>
                 <ul className='flex ul-nav cartIcon'>
                     <li className='li'><img src={cartLogo} alt="cart"  /></li>
@@ -52,6 +54,8 @@ function Nav() {
 }
 import MenuIcon from "../assets/menu.png"
 import MenuIcon2 from "../assets/add.svg"
+import { Link, Outlet } from 'react-router-dom';
+import Login from './Auths/Login';
 
 function Hamburger() {
     const [Menu, setMenu] = useState(true)
@@ -73,6 +77,7 @@ function Hamburger() {
     }, [])
 
     return (
+        <>
         <div className='menu-icon' onClick={() => setMenu(!Menu)}>
             {
                 Menu ?
@@ -90,6 +95,7 @@ function Hamburger() {
                     </>
             }
         </div>
+         </>
     )
 }
 export default Nav

@@ -7,7 +7,7 @@ const AuthRoute = express.Router();
 
 const verifyPassword = async (email, password) => {
     const result = await DBpool.query(
-        `SELECT * FROM Users WHERE email = $1`, 
+        `SELECT * FROM Users WHERE email = $1`,
         [email]
     );
     const user = result.rows[0];
@@ -15,13 +15,13 @@ const verifyPassword = async (email, password) => {
 
     if (result.rows.length == 0) {
         return res.status(400).json({ error: 'Email not found' });
-        
+
     }
 
     if (user.password != password) {
         return res.status(400).json({ error: 'Incorrect Password' });
     }
-    
+
 }
 AuthRoute.post('/api/auth/user/login', async (req, res) => {
 
@@ -63,7 +63,7 @@ AuthRoute.post('/api/auth/user/login', async (req, res) => {
             httpOnly: true,  // Cannot be accessed via JavaScript (protects from XSS)
             secure: true,    // Only sent over HTTPS (protects from MITM attacks)
             sameSite: 'Strict', // Prevents sending cookies on cross-site requests
-        }).status(200).json({"status":"Login Succes"});
+        }).status(200).json({ "status": "Login Succes" });
 
 
 
@@ -138,32 +138,49 @@ AuthRoute.post('/api/auth/user/register', async (req, res) => {
 
 
 
-AuthRoute.get('/api/auth/user/verify', async (req, res) => {
-    
-    console.log(req.cookies)
-    if(req.cookies=="" || req.cookies==undefined){
-        return res.status(400).send("Please Login")
+AuthRoute.get('1/api/auth/user/verify', async (req, res) => {
+
+
+    try {
+
+        if (!req.cookies) {
+            return res.status(400).send("Please Login")
+        }
+
+
+
+        const usertoken = req.cookies;
+        const secretkey = process.env.JWT_SECRET_KEY
+        const isVerifyed = jwt.verify(usertoken.token, secretkey)
+        console.log(isVerifyed)
+        res.send("user verifyed").status(200)
+    } catch (error) {
+        res.send("login please").status(400)
     }
-    const usertoken = req.cookies;
-
-    const secretkey = process.env.JWT_SECRET_KEY
-    const isVerifyed = jwt.verify(usertoken, secretkey)
-
-    console.log(isVerifyed)
-    // console.log(usertoken)
-    res.send("user verifyed").status(400)
 })
 
-const verifyToken =(req, res, next)=>{
-   
-        const userToken = req.cookies;
+
+
+AuthRoute.get("/*",(req,res,next)=>{
+    try {
+
+        if (!req.cookies) {
+            // return res.status(400).send("Please Login")
+            // return res.redirect("/api/auth/user/login")
+            return res.redirect("/")
+
+        }
+        const usertoken = req.cookies;
         const secretkey = process.env.JWT_SECRET_KEY
-    
-        // const isVerifyed = jwt.verify(userToken, secretkey)
-    
-        console.log(userToken)
-        // console.log(usertoken)
-        res.send("user verifyed").status(400)
-}
+        const isVerifyed = jwt.verify(usertoken.token, secretkey)
+        if(req.path=="/login" && isVerifyed){
+            res.redirect("/dashboard")
+        }else if(isVerifyed) next();
+
+    } catch (error) {
+        console.log(error)
+        res.redirect("/")
+    }
+})
 
 export default AuthRoute

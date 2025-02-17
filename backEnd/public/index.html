@@ -92,7 +92,8 @@
                 if (response.ok) {
                     alert("Login successful!");
                     // Redirect to dashboard or home page
-                    window.location.href = "/dashboard"; // Replace with your desired page
+                    // window.location.href = "/home.html"; 
+                    window.location.href = "/dashboard"; 
                 } else {
                     // Handle error message from API
                     document.getElementById("error-message").textContent = data.error || "Invalid credentials.";

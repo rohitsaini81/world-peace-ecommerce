@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 import router from "./routes/CRUD.js"
 import AuthRoute from "./routes/AUTH.js"
 import bodyParser from "body-parser"
+import cookieParser from "cookie-parser"
 
 
 const app = express();
@@ -32,15 +33,17 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: ' * ', credentials: true }));
+app.use(cookieParser())
 
-
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
 
 // your routes here
 app.use(AuthRoute)
 app.use(router)
+app.use(express.static('public'))
+
+app.get("/dashboard", (req, res) => {
+  res.send("welcome you are good user")
+})
 
 app.get("*", (req, res) => {
   res.status(404).json({
