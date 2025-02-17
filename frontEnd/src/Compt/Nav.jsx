@@ -61,12 +61,12 @@ function Hamburger() {
     const [Menu, setMenu] = useState(true)
     const menu1 = useRef();
     useEffect(() => {
-        const menu2 = document.getElementsByClassName("menu")
+        // const menu2 = document.getElementsByClassName("menu")
         try {
             const mainEliment = document.getElementById("main");
             mainEliment.addEventListener("click", () => {
                 setMenu(true);
-            menu2[0].classList.togle("open")
+            // menu2[0].classList.togle("open")
 
             })
 

@@ -14,11 +14,11 @@ function App() {
   return (
     <>
       <BRouter>
-      <Nav />
+          <Nav />
         <Routes>
           <Route path="/" element={<MainHome />} />
           <Route path="/about" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<main id='main'><Login /></main>} />
           {/* <Route path="*" element={<NoPage />} />  */}
         </Routes>
       </BRouter>

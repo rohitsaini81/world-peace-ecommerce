@@ -21,6 +21,13 @@ const port = process.env.PORT || 3000;
 
 
 
+const corsOptions = {
+  origin: 'http://localhost:5173', // Allow your frontend origin
+  methods: 'GET,POST,PUT,DELETE',  // Allow necessary HTTP methods
+  credentials: true,               // Allow credentials (cookies, tokens, etc.)
+};
+
+app.use(cors(corsOptions));
 
 
 app.use(
@@ -32,7 +39,7 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: ' * ', credentials: true }));
+// app.use(cors({ origin: ' * ', credentials: true }));
 app.use(cookieParser())
 
 

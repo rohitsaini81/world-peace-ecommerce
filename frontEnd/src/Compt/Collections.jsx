@@ -25,7 +25,7 @@ export default Collections
 
 
 
-import "../templates/css/Card.css"
+import "../Css/Card.css"
 function Card(props) {
 	console.log(props.Data)
     return (
