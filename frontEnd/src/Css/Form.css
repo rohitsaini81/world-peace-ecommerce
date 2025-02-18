@@ -5,13 +5,15 @@
 }
 
 .login-html {
-	width: 100%;
+	width: 80vw;
+	margin: 5em auto;
+	border-radius: 1em;
 	/* height:100%; */
 	padding-top: 4em;
 	/* padding:50px; */
 	right: -47px;
 	/* background:url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg) no-repeat center; */
-	background: rgba(255, 0, 0, 0.31);
+	background: #ddd;
 }
 
 .login-html .sign-in-htm,
@@ -83,8 +85,9 @@
 	padding: 0.2em 1em;
 	background-color: rgba(255, 86, 86, 0.1);
 }
+
 .login-form .group .input,
-.login-form .group .button1 :hover{
+.login-form .group .button1 :hover {
 	background-color: #007BFF;
 }
 

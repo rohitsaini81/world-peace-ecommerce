@@ -1,7 +1,7 @@
 
 import "../Css/Card.css"
 export default function Card(props) {
-	console.log(props.Data)
+	// console.log(props.Data)
     return (
 <>
 			

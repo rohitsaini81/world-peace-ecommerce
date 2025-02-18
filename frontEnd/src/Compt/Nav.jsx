@@ -30,7 +30,7 @@ function Nav() {
         <div className='flex H-100' id='navbarmain'>
             <div className='half-W'>
                 <ul>
-                    <li className='li'>World Peace</li>
+                    <Link to="/" ><li className='li'>World Peace</li></Link>
                 </ul>
             </div>
             <div className='half-W'>
@@ -44,7 +44,7 @@ function Nav() {
 
                 </ul>
                 <ul className='flex ul-nav cartIcon'>
-                    <li className='li'><img src={cartLogo} alt="cart" /></li>
+                   <Link to="/cart" ><li className='li'><img src={cartLogo} alt="cart" /></li></Link>
                 </ul>
                 {width < 900 ? <Hamburger /> : <span></span>}
 

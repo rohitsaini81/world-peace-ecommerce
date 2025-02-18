@@ -10,18 +10,24 @@ import { BrowserRouter as BRouter, Route, Routes } from "react-router-dom";
 import Items from './Compt/Items'
 
 
+import Counter1 from './Redux/Counter.jsx'
+import Cart from './Compt/Cart.jsx'
+
+
 function App() {
 
   return (
     <>
+
       <BRouter>
-          <Nav />
+        <Nav />
         <Routes>
           <Route path="/" element={<MainHome />} />
           <Route path="/about" element={<Home />} />
           <Route path="/login" element={<main id='main'><Login /></main>} />
           <Route path='/items/:category' element={<main id='main'><Items /></main>} />
-          {/* <Route path="*" element={<NoPage />} />  */}
+          <Route path="/cart" element={<main id='main' ><Cart /></main>} />
+          {/* <Route path="*" element={<Counter1 />} />  */}
         </Routes>
       </BRouter>
     </>

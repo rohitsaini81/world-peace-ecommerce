@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import images, { brandImages } from './Images';
+import React, { useEffect, useState } from 'react'
+import { brandImages } from './Images';
 import "../Css/Home.css"
 
 
@@ -25,7 +25,7 @@ export default function Home() {
 
 
 function Template(props) {
-  console.log(props.mT)
+  // console.log(props.mT)
   return (
     <div className='flex-c H-center V-center full-W half-H' style={{marginTop:props.mT}}>
       <div><p style={props.paddingg}>{props.text1}</p></div>

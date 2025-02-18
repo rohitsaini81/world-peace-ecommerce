@@ -1,0 +1,57 @@
+.cartBox {
+    margin: 6em 0 auto;
+    border-radius: 1em;
+    min-height: 75vh;
+    width: 80vw;
+    padding: 0 1em;
+}
+
+.seprator-V {
+    color: black;
+    min-height: 71vh;
+    margin: 1em 0;
+    width: 2px;
+    background: black;
+}
+
+.seprator-H {
+    color: black;
+    min-width: 71%;
+    margin: 2px 1em;
+    height: 2px;
+    background: black;
+}
+
+.size100percent {
+    height: 100%;
+    width: 100%;
+}
+
+.items {
+    margin-top: 2em;
+}
+
+.headings {
+    height: 4em;
+    border: solid black;
+    border-top: 2px;
+    border-right: 0px;
+    border-left: 0;
+}
+
+.minH75vh {
+    min-height: 75vh;
+}
+
+.boxShadow {
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.width6em {
+    width: 6em;
+}
+
+.cartItems {
+    justify-content: center;
+    align-items: center;
+}
