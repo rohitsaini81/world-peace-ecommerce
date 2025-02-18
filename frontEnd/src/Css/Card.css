@@ -117,3 +117,17 @@ i {
 	transform: translateY(0px);
 	opacity: 1;
 }
+
+.lineEffect {
+	background-color: #0000009e;
+	width: 5px;
+	height: 10px;
+	display: block;
+	border-radius: 10px;
+	transition: 0.5s;
+}
+.container .card:hover .lineEffect{
+	width: 15.5em;
+	/* transform: translateX(20px); */
+
+}

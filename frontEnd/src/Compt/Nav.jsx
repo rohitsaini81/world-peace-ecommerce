@@ -35,16 +35,16 @@ function Nav() {
             </div>
             <div className='half-W'>
                 <ul className='flex ul-nav hide' id='menuList'>
-                    <li className='li'>Shop</li>
-                    <li className='li'>Newstand</li>
-                    <li className='li'>Who We Are</li>
-                    <li className='li'>My Profile</li>
-                    <li className='li'>Basket</li>
-                    <li className='li'><Link to="/login">Sign In</Link></li>
+                    <Link to="/all-items" ><li className='li'>Shop</li></Link>
+                    <Link to="/blogs" ><li className='li'>Newstand</li></Link>
+                    <Link to="/about" ><li className='li'>Who We Are</li></Link>
+                    <Link to="/user-profile" ><li className='li'>My Profile</li></Link>
+                    <Link to="/cart" ><li className='li'>Basket</li></Link>
+                    <Link to="/login"><li className='li'>Sign In</li></Link>
 
                 </ul>
                 <ul className='flex ul-nav cartIcon'>
-                    <li className='li'><img src={cartLogo} alt="cart"  /></li>
+                    <li className='li'><img src={cartLogo} alt="cart" /></li>
                 </ul>
                 {width < 900 ? <Hamburger /> : <span></span>}
 
@@ -54,7 +54,7 @@ function Nav() {
 }
 import MenuIcon from "../assets/menu.png"
 import MenuIcon2 from "../assets/add.svg"
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Login from './Auths/Login';
 
 function Hamburger() {
@@ -66,7 +66,7 @@ function Hamburger() {
             const mainEliment = document.getElementById("main");
             mainEliment.addEventListener("click", () => {
                 setMenu(true);
-            // menu2[0].classList.togle("open")
+                // menu2[0].classList.togle("open")
 
             })
 
@@ -78,24 +78,24 @@ function Hamburger() {
 
     return (
         <>
-        <div className='menu-icon' onClick={() => setMenu(!Menu)}>
-            {
-                Menu ?
-                    <img src={MenuIcon} alt="icons" /> :
-                    <>
-                        <ul className='flex-c ul-nav-menu show menu' ref={menu1}>
-                            <li className="li"><img src={MenuIcon2} alt="icons" /></li>
-                            <li className='li'>Shop</li>
-                            <li className='li'>Newsstand</li>
-                            <li className='li'>Who We Are</li>
-                            <li className='li'>My Profile</li>
-                            <li className='li'>Basket</li>
-                            <li className='li'>Sign In</li>
-                        </ul>
-                    </>
-            }
-        </div>
-         </>
+            <div className='menu-icon' onClick={() => setMenu(!Menu)}>
+                {
+                    Menu ?
+                        <img src={MenuIcon} alt="icons" /> :
+                        <>
+                            <ul className='flex-c ul-nav-menu show menu' ref={menu1}>
+                                <li className="li"><img src={MenuIcon2} alt="icons" /></li>
+                                <li className='li'>Shop</li>
+                                <li className='li'>Newsstand</li>
+                                <li className='li'>Who We Are</li>
+                                <li className='li'>My Profile</li>
+                                <li className='li'>Basket</li>
+                                <li className='li'>Sign In</li>
+                            </ul>
+                        </>
+                }
+            </div>
+        </>
     )
 }
 export default Nav

@@ -39,18 +39,21 @@ const CollectionImages =
 [
   {
     title:"Brand New Shoes",
+    type: "shoes",
     about:"",
     imgURL:shoesimage,
     imgAlt: "img-1"
   },
   {
     title:"High Quality T-Shirts",
+    type:"t-shirts",
     about:"",
     imgURL:tshirtimage,
     imgAlt: "img-2"
   },
   {
     title:"Top Pants and Shirts",
+    type:"pant-shirts",
     about:"",
     imgURL:pantshirtimage,
     imgAlt: "img-2"
