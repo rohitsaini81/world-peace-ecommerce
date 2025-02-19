@@ -12,7 +12,7 @@ import Items from './Compt/Items'
 
 import Counter1 from './Redux/Counter.jsx'
 import Cart from './Compt/Cart.jsx'
-
+import Preview from "./Compt/Preview.jsx"
 
 function App() {
 
@@ -26,6 +26,7 @@ function App() {
           <Route path="/about" element={<Home />} />
           <Route path="/login" element={<main id='main'><Login /></main>} />
           <Route path='/items/:category' element={<main id='main'><Items /></main>} />
+          <Route path='/item/:id' element={<main id='main'><Preview /></main>} />
           <Route path="/cart" element={<main id='main' ><Cart /></main>} />
           {/* <Route path="*" element={<Counter1 />} />  */}
         </Routes>

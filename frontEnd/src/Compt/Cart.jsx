@@ -25,7 +25,7 @@ function Cart() {
 
                 <div className="flex-C H-center V-center cartList size100percent boxShadow" style={{ marginTop: "1em", backgroundColor: "#ddd", borderRadius: "1em" }}>
                     <summary className='headings flex H-center' style={{ justifyContent: "space-around" }}><p>Summary</p></summary>
-                    <div className="itmes"><span>Items 3</span><span>€ 132.00</span></div>
+                    <div className="itmes"><p style={{display:'inline'}}>Items 0 </p><p style={{display:'inline'}}>€ 0.00</p></div>
                 </div>
             </div>
         </>

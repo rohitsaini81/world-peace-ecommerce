@@ -35,7 +35,7 @@ function Nav() {
             </div>
             <div className='half-W'>
                 <ul className='flex ul-nav hide' id='menuList'>
-                    <Link to="/all-items" ><li className='li'>Shop</li></Link>
+                    <Link to="/items/:all-items" ><li className='li'>Shop</li></Link>
                     <Link to="/blogs" ><li className='li'>Newstand</li></Link>
                     <Link to="/about" ><li className='li'>Who We Are</li></Link>
                     <Link to="/user-profile" ><li className='li'>My Profile</li></Link>

@@ -1,0 +1,31 @@
+.p-title {
+    height: 1em;
+    width: 100%;
+    overflow: hidden;
+}
+
+.left-title {
+    margin: 0px;
+    margin-left: 0px;
+    width: 100%;
+    text-align: left;
+    margin-left: 1em;
+}
+
+.span-m {
+    margin-right: 0.3em;
+}
+
+.detail-part{
+    background-color: #fff;
+    transition: all 0.3s;
+}
+.itemCard:hover .detail-part{
+    transform: translateY(-25px);
+    z-index: 11;
+}
+.itemCard{
+    margin: 0.3em;
+    min-width: 20vw;
+    height: 23em;
+}

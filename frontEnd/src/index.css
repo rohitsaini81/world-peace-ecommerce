@@ -101,3 +101,24 @@ span,p,button{
   border-radius: 5px;
   
 }
+.boxShadow {
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+
+@media (orientation: portrait) {
+  .cartBox {
+      flex-direction: column;
+  }
+
+  .seprator-V {
+      display: none;
+  }
+  .just-items{
+    flex-direction: column;
+  }
+  .itemCard{
+    width: 74vw !important;
+  }
+
+}
