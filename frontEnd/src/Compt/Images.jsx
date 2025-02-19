@@ -29,6 +29,8 @@ const images = [
     }
   ];
   
+const  testimage = images[0].imgURL
+export {testimage}
   
 import shoesimage from "../assets/collections/shoes1.jpg"
 import shoes2image from "../assets/collections/shoes2.jpg"
