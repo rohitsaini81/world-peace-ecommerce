@@ -7,6 +7,7 @@ import router from "./routes/CRUD.js"
 import AuthRoute from "./routes/AUTH.js"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
+import postroute from './routes/Routes/postroute.js'
 
 
 const app = express();
@@ -46,6 +47,8 @@ app.use(cookieParser())
 // your routes here
 app.use(AuthRoute)
 app.use(router)
+app.use(postroute)
+
 app.use(express.static('public'))
 
 app.get("/dashboard", (req, res) => {
