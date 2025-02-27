@@ -1,19 +1,22 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import Nav from './Compt/Nav'
 import Home from './Compt/Home'
 import Collections from './Compt/Collections'
 import "./App.css"
 import Login from './Compt/Auths/Login'
-
+import axios from "axios"
 
 import { BrowserRouter as BRouter, Route, Routes } from "react-router-dom";
 import Items from './Compt/Items'
 
 
-import Counter1 from './Redux/Counter.jsx'
+// import Counter1 from './Redux/Counter.jsx'
 import Cart from './Compt/Cart.jsx'
 import Preview from "./Compt/Preview.jsx"
+// import { useEffect } from 'react'
 
+
+const __uri = "http://localhost:4000/scrape"
 function App() {
 
   return (
@@ -45,6 +48,29 @@ export function MainHome() {
       <Collections />
     </main>
   )
+}
+
+
+
+
+export async function sendScrapeRequest() {
+  try {
+    const response = await axios.post(__uri, {
+      searchQuery: "t-shirt",
+      minPrice: 0,
+      maxPrice: 80000,
+      // brand: "HP"
+    }, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    // console.log('Response:', response.data);
+    return response.data
+  } catch (error) {
+    return ('Error:', error.response ? error.response.data : error.message);
+  }
 }
 
 
