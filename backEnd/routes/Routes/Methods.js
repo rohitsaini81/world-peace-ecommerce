@@ -90,7 +90,7 @@ async function scrapeGoogleShopping(url) {
     
     
 
-    await page.waitForSelector(".sh-dgr__grid-result", { timeout: 50000 }).catch((e) => console.log("No products found\n", e, "\n", page));
+    // await page.waitForSelector(".sh-dgr__grid-result", { timeout: 50000 }).catch((e) => console.log("No products found\n", e, "\n", page));
     // await page.evaluate(, { timeout: 50000 }).catch((e) => console.log("No products found\n", e, "\n", page));
 
 
