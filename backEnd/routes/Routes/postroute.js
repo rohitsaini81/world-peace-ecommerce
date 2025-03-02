@@ -26,4 +26,26 @@ routerp.post("/scrape", async (req, res) => {
 });
 
 
+
+routerp.get("/scrape/:searchQuery", async (req, res) => {
+    try {
+        const  searchQuery = req.params.searchQuery;
+        console.log(`Scraping Google Shopping for: ${searchQuery}`);
+
+        
+        // Construct Google Shopping search URL
+        const url = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(searchQuery)}`;
+        console.log("uri : ",url)
+        const _data = await scrapeGoogleShopping(searchQuery)
+
+        console.log(_data," by pupet")
+
+        res.json({ status: "success", _data });
+    } catch (error) {
+        console.error("Error during scraping:", error);
+        res.status(500).json({ status: "error", message: error.message });
+    }
+});
+
+
 export default routerp;

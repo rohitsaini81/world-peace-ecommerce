@@ -45,7 +45,7 @@ app.use(cookieParser())
 
 
 // your routes here
-app.use(AuthRoute)
+// app.use(AuthRoute)
 app.use(router)
 app.use(postroute)
 
