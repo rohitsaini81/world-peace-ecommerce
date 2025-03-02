@@ -1,10 +1,11 @@
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 import fs from 'fs'
+// import { browser, page } from "../../app.js";
 
+export let browser, page;
 
-let browser, page;
-let turn = false;
+// let turn = false;
 // const proxy_host = 'http://geo.g-w.info:10080'
 // const proxy_username = 'rO7lEym4phHSWGAm'
 // const proxy_password = 'phOj95lvP4ufdQHg'
@@ -16,8 +17,8 @@ proxy_password = "xZoDy7P40He5tkTn"
 
 
 
-const startBrowser = async () => {
-    if (!turn) {
+
+export const startBrowser = async () => {
         puppeteer.use(StealthPlugin());
         browser = await puppeteer.launch({
             headless: true,
@@ -29,10 +30,6 @@ const startBrowser = async () => {
         page.authenticate({ username: proxy_username, password: proxy_password })
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36');
         // await loadCookies(page);
-    }
-
-
-
 
     // if(!turn){
     //     const browser = await puppeteer.launch({
@@ -55,16 +52,14 @@ const startBrowser = async () => {
     // await page.authenticate({username:proxy_username, password:proxy_password})
 
     // }
-
-
-
 }
-async function scrapeGoogleShopping(searchQuery) {
-    await startBrowser()
-    const url = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(searchQuery)}`;
-    // const url = `https://www.google.com/search?tbm=shop&q=sheos&tbs=mr:1,price:1,ppr_min:10,ppr_max:50`
+async function scrapeGoogleShopping(url) {
+    // await startBrowser()
+    // const url = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(searchQuery)}`;
 
-    await page.goto(url, { waitUntil: "networkidle2" });
+    // await page.goto(url, { waitUntil: "networkidle2" });
+    await page.goto(url);
+
 
     // Wait for the products to appear
     if (await page.$("input#captcha")) {
@@ -82,22 +77,10 @@ async function scrapeGoogleShopping(searchQuery) {
 
 
     // Click "Accept Cookies" if found
-    try {
-        await page.waitForSelector('button[aria-label="Tout accepter"]', { timeout: 5000 });
-        await page.click('button[aria-label="Tout accepter"]');
-        console.log("Accepted cookies");
-    
-        // Wait until the popup disappears (ensures cookies are actually accepted)
-        await page.waitForFunction(() => !document.querySelector('button[aria-label="Tout accepter"]'), { timeout: 10000 });
-    
-        console.log("Cookies popup disappeared.");
-        await saveCookies(page);
-        await page.screenshot({ path: 'screenshot.png', fullPage: true }); // Takes full-page screenshot
+    validateCookies();
 
-        await page.reload({ waitUntil: "networkidle2" }); // Reload to apply changes
-    } catch (e) {
-        console.log("No cookies prompt found or failed to accept.");
-    }
+
+
     await page.evaluate(() => {
         window.scrollBy(0, window.innerHeight);
     });
@@ -108,6 +91,8 @@ async function scrapeGoogleShopping(searchQuery) {
     
 
     await page.waitForSelector(".sh-dgr__grid-result", { timeout: 50000 }).catch((e) => console.log("No products found\n", e, "\n", page));
+    // await page.evaluate(, { timeout: 50000 }).catch((e) => console.log("No products found\n", e, "\n", page));
+
 
     const products = await page.evaluate(() => {
         return [...document.querySelectorAll(".sh-dgr__grid-result")].map(el => ({
@@ -134,8 +119,97 @@ async function scrapeGoogleShopping(searchQuery) {
 
 
 
+const validateCookies = async () => {
+    try {
+        // Check if the cookie popup exists before interacting
+        const cookieButton = await page.$('button[aria-label="Tout accepter"]');
+        if (cookieButton) {
+            console.log("Cookies popup detected. Accepting...");
 
+            await cookieButton.click(); // Click "Accept"
+
+            // Wait until the popup disappears
+            await page.waitForFunction(
+                () => !document.querySelector('button[aria-label="Tout accepter"]'),
+                { timeout: 10000 }
+            );
+
+            console.log("Cookies accepted and popup disappeared.");
+
+            // Save cookies
+            // await saveCookies(page);
+
+            // Screenshot for verification
+            // await page.screenshot({ path: 'screenshot.png', fullPage: true });
+
+            // 
+            await page.setRequestInterception(true)
+            page.on('request',(req)=>{
+                const resourceType = req.resourceType();
+                if(['image','stylesheet','font','xhr'].includes(resourceType)){req.abort();}else{req.continue();}})
+
+
+            // 
+
+
+            // Reload to apply changes
+            await page.reload({ waitUntil: "domcontentloaded" });
+
+        } else {
+            console.log("No cookies popup found.");
+        }
+    } catch (e) {
+        console.error("Error handling the cookie popup:", e);
+    }
+};
 
 
 
 export default scrapeGoogleShopping
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const validateCookies=async()=>{
+//     try {
+//         await page.waitForSelector('button[aria-label="Tout accepter"]', { timeout: 5000 });
+//         await page.click('button[aria-label="Tout accepter"]');
+//         console.log("Accepted cookies");
+    
+//         // Wait until the popup disappears (ensures cookies are actually accepted)
+//         await page.waitForFunction(() => !document.querySelector('button[aria-label="Tout accepter"]'), { timeout: 10000 });
+    
+//         console.log("Cookies popup disappeared.");
+//         await saveCookies(page);
+//         await page.screenshot({ path: 'screenshot.png', fullPage: true }); // Takes full-page screenshot
+
+//         await page.reload({ waitUntil: "networkidle2" }); // Reload to apply changes
+//     } catch (e) {
+//         console.log("No cookies prompt found or failed to accept.");
+//     }
+// }

@@ -8,13 +8,16 @@ import scrapeGoogleShopping from './Methods.js';
 routerp.post("/scrape", async (req, res) => {
     try {
         const { searchQuery, minPrice, maxPrice, brand } = req.body;
+        console.log(req.body)
         console.log(`Scraping Google Shopping for: ${searchQuery}`);
 
         
         // Construct Google Shopping search URL
-        const url = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(searchQuery)}`;
+        // const url = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(searchQuery)}`;
+        const url = `https://www.google.com/search?tbm=shop&q=sheos&tbs=mr:1,price:1,ppr_min:${minPrice},ppr_max:${maxPrice}`
+
         console.log("uri : ",url)
-        const _data = await scrapeGoogleShopping(searchQuery)
+        const _data = await scrapeGoogleShopping(url)
 
         console.log(_data," by pupet")
 
@@ -36,7 +39,7 @@ routerp.get("/scrape/:searchQuery", async (req, res) => {
         // Construct Google Shopping search URL
         const url = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(searchQuery)}`;
         console.log("uri : ",url)
-        const _data = await scrapeGoogleShopping(searchQuery)
+        const _data = await scrapeGoogleShopping(url)
 
         console.log(_data," by pupet")
 

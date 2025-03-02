@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <style>
+        li {
+            padding: 9px;
+        }
+
+        img {
+            display: block;
+            height: 100%;
+            width: 5em;
+        }
+        .COLOR{
+            color: rgb(248, 50, 50);
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Search for a Product</h2>
+    <p class="COLOR">URL : <span style="color: #242479;">http://13.60.74.121:4000/scrape</span></p>
+    <p class="COLOR">METHOD : POST </p>
+    <p class="COLOR"> body: {<span style="color: #242479;"> searchQuery, minPrice, maxPrice, brand } </span></p>
+    <div class="box">
+        <form id="searchForm">
+            <label for="searchQuery">Search Query:</label>
+            <input type="text" id="searchQuery" name="searchQuery" required>
+            <br><br>
+
+            <label for="minPrice">Min Price:</label>
+            <input type="number" id="minPrice" name="minPrice">
+            <br><br>
+
+            <label for="maxPrice">Max Price:</label>
+            <input type="number" id="maxPrice" name="maxPrice">
+            <br><br>
+
+            <label for="brand">Brand:</label>
+            <input type="text" id="brand" name="brand">
+            <br><br>
+
+            <button type="submit">Search</button>
+        </form>
+        <div class="items">
+            <ul id="itemList">
+                <br>
+                <!-- <li><img src="" alt="" id="imageUri"><span id="title"></span><span id="price"></span></li> -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("searchForm").addEventListener("submit", async function (event) {
+            await event.preventDefault(); // Prevent default form submission
+
+            const searchQuery = document.getElementById("searchQuery").value;
+            const minPrice = document.getElementById("minPrice").value;
+            const maxPrice = document.getElementById("maxPrice").value;
+            const brand = document.getElementById("brand").value;
+
+            const ItemList = document.getElementById("itemList");
+
+
+
+
+
+            const setData = async () => {
+                // const ItemsAll=[]
+
+                const ItemsAll = await fetch("/scrape", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ searchQuery, minPrice, maxPrice, brand })
+                })
+                    .then(response => response.json())
+                    .catch(error => console.error("Error:", error));
+
+
+                console.log("items all : ", ItemsAll._data.length)
+
+                if ((ItemList != null && ItemsAll != null) && ItemsAll._data.length >= 0) {
+                    console.log(ItemsAll[0])
+
+
+                    ItemsAll._data.map((data, index) => {
+                        console.log(data)
+                        const Item = document.createElement("li");
+                        const Title = document.createElement("span");
+                        Title.classList.add("title")
+                        Title.textContent = data.title
+                        const ImageUri = document.createElement("img")
+                        ImageUri.classList.add("imageUri")
+                        ImageUri.src = data.image
+                        const Price = document.createElement("span")
+                        Price.classList.add("price")
+
+                        Price.textContent = data.price
+
+                        Item.appendChild(Title)
+                        Item.appendChild(ImageUri)
+                        Item.appendChild(Price)
+
+                        ItemList.appendChild(Item)
+
+                    })
+                } else {
+                    console.log("something went wrong")
+                }
+
+
+
+
+            }
+
+
+            setData();
+
+        })
+
+
+
+    </script>
+</body>
+
+</html>

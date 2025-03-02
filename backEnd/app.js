@@ -8,6 +8,7 @@ import AuthRoute from "./routes/AUTH.js"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import postroute from './routes/Routes/postroute.js'
+import { startBrowser } from "./routes/Routes/Methods.js"
 
 
 const app = express();
@@ -64,4 +65,8 @@ app.get("*", (req, res) => {
 
 app.use(errorMiddleware);
 
-app.listen(port, () => console.log('Server is working on Port:' + port + ' in ' + envMode + ' Mode.\n ➜  Local:   http://localhost:' + port + '/'));
+app.listen(port, () => {
+  startBrowser();
+  console.log('Server is working on Port:' + port + ' in ' + envMode + ' Mode.\n ➜  Local:   http://localhost:' + port + '/')
+
+});
