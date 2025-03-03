@@ -22,12 +22,12 @@ export const startBrowser = async () => {
         puppeteer.use(StealthPlugin());
         browser = await puppeteer.launch({
             headless: true,
-            args: [`--proxy-server=${proxy_host}`]
+         //   args: [`--proxy-server=${proxy_host}`]
         });
 
 
         page = await browser.newPage();
-        page.authenticate({ username: proxy_username, password: proxy_password })
+   //     page.authenticate({ username: proxy_username, password: proxy_password })
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36');
         // await loadCookies(page);
 
