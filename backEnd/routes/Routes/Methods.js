@@ -1,64 +1,69 @@
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 import fs from 'fs'
-// import { browser, page } from "../../app.js";
+import { proxy_host, proxy_password, proxy_username } from "../../app.js";
 
 export let browser, page;
 
-// let turn = false;
-// const proxy_host = 'http://geo.g-w.info:10080'
-// const proxy_username = 'rO7lEym4phHSWGAm'
-// const proxy_password = 'phOj95lvP4ufdQHg'
-
-let proxy_host, proxy_username, proxy_password;
-proxy_host = "http://geo.floppydata.com:10080"
-proxy_username = "IjEJ8bfLzKoYlXLH"
-proxy_password = "xZoDy7P40He5tkTn"
 
 
 
 
 export const startBrowser = async () => {
+    console.log("proxy host : ",proxy_host)
         puppeteer.use(StealthPlugin());
         browser = await puppeteer.launch({
             headless: true,
             args: [`--proxy-server=${proxy_host}`]
+            // args: [`--proxy-server=http://localhost:8080`,'--ignore-certificate-errors']
+
         });
 
 
         page = await browser.newPage();
-        page.authenticate({ username: proxy_username, password: proxy_password })
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36');
-        // await loadCookies(page);
+        // page.authenticate({ username: proxy_username, password: proxy_password })
 
-    // if(!turn){
-    //     const browser = await puppeteer.launch({
-    //         headless: false,
-    //         args: [
-    //             `--proxy-server=${proxy_host}`,
-    //             '--no-sandbox',
-    //             '--disable-setuid-sandbox',
-    //             '--disable-gpu',
-    //             '--disable-dev-shm-usage',
-    //             '--disable-accelerated-2d-canvas',
-    //             '--disable-software-rasterizer',
-    //             '--use-gl=desktop',
-    //             '--enable-features=UseOzonePlatform',
-    //             '--ozone-platform=x11'
-    //         ]
-    //     });
 
-    // page = await browser.newPage();
-    // await page.authenticate({username:proxy_username, password:proxy_password})
 
-    // }
+        
+        // const browser = await puppeteer.launch({
+        //     headless: false,
+        //     args: [
+        //         // `--proxy-server=${proxy_host}`,
+        //         '--no-sandbox',
+        //         '--disable-setuid-sandbox',
+        //         '--disable-gpu',
+        //         '--disable-dev-shm-usage',
+        //         '--disable-accelerated-2d-canvas',
+        //         '--disable-software-rasterizer',
+        //         '--use-gl=desktop',
+        //         '--enable-features=UseOzonePlatform',
+        //         '--ozone-platform=x11'
+        //     ]
+        // });
+        // page = await browser.newPage();
+        // await page.authenticate({username:proxy_username, password:proxy_password})
+
+
 }
+
+
+
+
+
+
+
+
 async function scrapeGoogleShopping(url) {
     // await startBrowser()
     // const url = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(searchQuery)}`;
 
-    // await page.goto(url, { waitUntil: "networkidle2" });
-    await page.goto(url);
+    await page.goto(url, { waitUntil: "networkidle2" });
+
+    // await page.goto(url);
+    await console.log("scrapping when",new Date().toLocaleTimeString());
+    // await page.screenshot({ path: "screenshot.png" }); // Take a screenshot
 
 
     // Wait for the products to appear
@@ -81,20 +86,26 @@ async function scrapeGoogleShopping(url) {
 
 
 
-    await page.evaluate(() => {
-        window.scrollBy(0, window.innerHeight);
-    });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    // await page.evaluate(() => {
+    //     window.scrollBy(0, window.innerHeight);
+    // });
+    // window.scrollBy(0, window.innerHeight);
+    // await new Promise(resolve => setTimeout(resolve, 3000));
  
 
     
     
 
-    // await page.waitForSelector(".sh-dgr__grid-result", { timeout: 50000 }).catch((e) => console.log("No products found\n", e, "\n", page));
+    // await page.waitForSelector(".sh-dgnr__grid-result", { timeout: 50000 }).catch((e) => console.log("No products found\n", e, "\n", page));
     // await page.evaluate(, { timeout: 50000 }).catch((e) => console.log("No products found\n", e, "\n", page));
+    // const rawHTML = await page.evaluate(() => document.documentElement.outerHTML);
+    // console.log(rawHTML);
 
+    
 
-    const products = await page.evaluate(() => {
+    const products = await page.evaluate(async() => {
+        await window.scrollBy(0, window.innerHeight);
+        await new Promise(resolve => setTimeout(resolve, 2000));
         return [...document.querySelectorAll(".sh-dgr__grid-result")].map(el => ({
             title: el.querySelector(".tAxDx, .sh-np__product-title")?.innerText?.trim() || "No Title",
             price: el.querySelector(".a8Pemb, .sh-pr__price")?.innerText?.trim() || "No Price",
@@ -107,10 +118,11 @@ async function scrapeGoogleShopping(url) {
     
     console.log(products[1]);
     console.log(products[2]);
-
+    
     
     // await browser.close();
-    await page.screenshot({ path: 'screenshot.png', fullPage: true }); // Takes full-page screenshot
+    // await page.screenshot({ path: 'screenshot.png', fullPage: true }); // Takes full-page screenshot
+    await console.log("ok done ",new Date().toLocaleTimeString());
     return products;
 }
 
@@ -122,6 +134,7 @@ async function scrapeGoogleShopping(url) {
 const validateCookies = async () => {
     try {
         // Check if the cookie popup exists before interacting
+        // await page.screenshot({ path: "screenshot.png" }); // Take a screenshot
         const cookieButton = await page.$('button[aria-label="Tout accepter"]');
         if (cookieButton) {
             console.log("Cookies popup detected. Accepting...");

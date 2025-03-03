@@ -11,15 +11,15 @@ routerp.post("/scrape", async (req, res) => {
         console.log(req.body)
         console.log(`Scraping Google Shopping for: ${searchQuery}`);
 
-        
+
         // Construct Google Shopping search URL
         // const url = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(searchQuery)}`;
-        const url = `https://www.google.com/search?tbm=shop&q=sheos&tbs=mr:1,price:1,ppr_min:${minPrice},ppr_max:${maxPrice}`
+        const url = `https://www.google.com/search?tbm=shop&q=${searchQuery}&tbs=mr:1,price:1,ppr_min:${minPrice},ppr_max:${maxPrice}`
 
-        console.log("uri : ",url)
+        console.log("uri : ", url)
         const _data = await scrapeGoogleShopping(url)
 
-        console.log(_data," by pupet")
+        // console.log(_data," by pupet")
 
         res.json({ status: "success", _data });
     } catch (error) {
@@ -31,18 +31,19 @@ routerp.post("/scrape", async (req, res) => {
 
 
 routerp.get("/scrape/:searchQuery", async (req, res) => {
-    try {
-        const  searchQuery = req.params.searchQuery;
-        console.log(`Scraping Google Shopping for: ${searchQuery}`);
+    await console.log("before process : "+new Date().toLocaleTimeString());
 
-        
-        // Construct Google Shopping search URL
+    try {
+        const searchQuery = req.params.searchQuery;
+        console.log(`Scraping Google Shopping for: ${searchQuery}`);
         const url = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(searchQuery)}`;
-        console.log("uri : ",url)
+        console.log("uri : ", url)
+        await console.log("before process start : "+new Date().toLocaleTimeString());
+
         const _data = await scrapeGoogleShopping(url)
 
-        console.log(_data," by pupet")
-
+        // console.log(_data," by pupet")
+        await console.log("after process : "+new Date().toLocaleTimeString());
         res.json({ status: "success", _data });
     } catch (error) {
         console.error("Error during scraping:", error);

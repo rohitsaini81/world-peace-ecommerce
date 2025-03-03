@@ -13,6 +13,12 @@ import { startBrowser } from "./routes/Routes/Methods.js"
 
 const app = express();
 dotenv.config({ path: './.env', });
+
+
+export const proxy_host = process.env.proxy_host1;
+export const proxy_username = process.env.proxy_username1;
+export const proxy_password = process.env.proxy_password1;
+
 app.use(express.json());
 
 
