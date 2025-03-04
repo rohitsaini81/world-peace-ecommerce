@@ -1,36 +1,42 @@
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 import fs from 'fs'
-import { proxy_host, proxy_password, proxy_username } from "../../app.js";
+import { proxy_auth, proxy_host, proxy_password, proxy_username } from "../../app.js";
 
 export let browser, page;
 
 
 
+        // const userProxy ="http://:3128"
 
 
 export const startBrowser = async () => {
-    console.log("proxy host : ",proxy_host)
-        puppeteer.use(StealthPlugin());
+    puppeteer.use(StealthPlugin());
+    
+    if(proxy_host!=""){
+            console.log("proxy host : ",proxy_host)
         browser = await puppeteer.launch({
             headless: true,
-            args: [`--proxy-server=${proxy_host}`]
-            // args: [`--proxy-server=http://localhost:8080`,'--ignore-certificate-errors']
-
+           args: [`--proxy-server=${proxy_host}`]
+            // args: [`--proxy-server=${userProxy}`,'--ignore-certificate-errors']
         });
+    }else {
+        browser = await puppeteer.launch({headless: true,args: [`--proxy-server=${proxy_host}`]});
+    }
+    
+    page = await browser.newPage();
+    
+    
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36');
+    
+    proxy_auth?page.authenticate({ username: proxy_username, password: proxy_password }):console.log("No Auth for proxy")
 
 
-        page = await browser.newPage();
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36');
-        // page.authenticate({ username: proxy_username, password: proxy_password })
 
-
-
-        
-        // const browser = await puppeteer.launch({
+        // browser = await puppeteer.launch({
         //     headless: false,
         //     args: [
-        //         // `--proxy-server=${proxy_host}`,
+        //         `--proxy-server=${px1}`,
         //         '--no-sandbox',
         //         '--disable-setuid-sandbox',
         //         '--disable-gpu',
@@ -42,6 +48,7 @@ export const startBrowser = async () => {
         //         '--ozone-platform=x11'
         //     ]
         // });
+        
         // page = await browser.newPage();
         // await page.authenticate({username:proxy_username, password:proxy_password})
 
