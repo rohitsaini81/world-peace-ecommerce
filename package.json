@@ -2,8 +2,9 @@
   "name": "WebDev",
   "version": "1.0.0",
   "scripts": {
-    "start": "concurrently \"npm run start --prefix backEnd\" \"npm run dev --prefix frontEnd\"",
-    "install": "npm run install --prefix backEnd && npm run install --prefix frontEnd"
+    "start": "concurrently \"npm run start --prefix backend\" \"npm run dev --prefix frontend\"",
+    "install": "npm run install --prefix backend && npm run install --prefix frontend",
+    "test" : "npm run dev --prefix frontEnd"
   },
   "devDependencies": {
     "concurrently": "^6.5.1"
