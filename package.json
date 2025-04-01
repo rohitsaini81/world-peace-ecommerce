@@ -1,8 +1,8 @@
 {
-  "name": "WebDev",
+  "name": "world_peace",
   "version": "1.0.0",
   "scripts": {
-    "start": "concurrently \"npm run start --prefix backend\" \"npm run dev --prefix frontend\"",
+    "start": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
     "install": "npm run install --prefix backend && npm run install --prefix frontend",
     "test" : "npm run dev --prefix frontEnd"
   },

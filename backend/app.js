@@ -3,22 +3,12 @@ import helmet from "helmet"
 import cors from 'cors'
 import { errorMiddleware } from "./middlewares/error.js"
 import dotenv from "dotenv"
-import router from "./routes/CRUD.js"
-import AuthRoute from "./routes/AUTH.js"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
-import postroute from './routes/Routes/postroute.js'
-import { startBrowser } from "./routes/Routes/Methods.js"
 
 
 const app = express();
 dotenv.config({ path: './.env', });
-
-
-export const proxy_host = process.env.proxy_host;
-export const proxy_username = process.env.proxy_username;
-export const proxy_password = process.env.proxy_password;
-export const proxy_auth = process.env.proxy_auth;
 
 app.use(express.json());
 
@@ -54,8 +44,6 @@ app.use(cookieParser())
 
 // your routes here
 // app.use(AuthRoute)
-app.use(router)
-app.use(postroute)
 
 app.use(express.static('public'))
 
