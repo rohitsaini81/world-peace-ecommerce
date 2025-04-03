@@ -1,131 +1,132 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import '../../Css/Form.css'
+import  { useState } from "react";
+import axios from "axios";
 
+export default function Login() {
+  const URI = "http://localhost:4000/";
+  const [formType, setFormType] = useState("signin");
+  const [Uname, setUname] = useState("");
+  const [username, setEmail] = useState("");
+  const [passWd, setPassWd] = useState("");
+  const [rePass, setRePass] = useState("");
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-function Login() {
+    if (formType === "signin") {
+      if (username === "" || passWd === "") return;
+      const Data = { username, password: passWd };
 
-    const URI = "http://localhost:4000/"
-    const [Uname, setUname] = useState("");
-    const [email, setEmail] = useState("");
-    const [passWd, setPassWd] = useState("");
-    const [rePass, setRePass] = useState("")
+      try {
+        const result = await axios.post(URI + "login", Data, {
+          withCredentials: true,
+        });
 
-    // console.log(userId)
-    const HandleSubmit = async (e) => {
-        console.log(e.target.id == "signupbtn")
+        console.log(result.data);
+      } catch (error) {
+        console.error("Login Error:", error.message);
+      }
+    } else if (formType === "signup") {
+      if (!username || !passWd || !Uname || !rePass || rePass !== passWd) return;
+      const Data = {
+        Name: Uname,
+        age: -1,
+        username,
+        password: passWd,
+        gender: false,
+      };
 
-        if (e.target.id == "loginbtn") {
-
-            if (email=="" || passWd==""){return}
-            const Data = {
-                "email": email,
-                "password": passWd,
-            }
-            setEmail("")
-            setPassWd("")
-            const result = await axios.post(URI + "api/auth/user/login", Data, { withCredentials: true });
-
-            const cookies = result.headers['set-cookie'];
-            if (cookies) {
-                document.cookie = `token=${cookies[0]}; path=/; secure;`;
-                console.log('Cookie set:', cookies);
-            }
-            console.log(result)
-        }else  if (e.target.id == "loginbtn") {
-
-            if (email=="" || passWd=="" || Uname=="" || rePass=="" || rePass!=passWd){return}
-            const Data = {
-                
-                    "Name":Uname,
-                    "age": -1,
-                    "email":email,
-                    "password":passWd,
-                    "gender":false
-                  
-                }
-            setUname("")
-            setEmail("")
-            setPassWd("")
-            setRePass("")
-            const result = await axios.post(URI + "api/auth/user/register", Data, { withCredentials: true });
-
-            const cookies = result.headers['set-cookie'];
-            if (cookies) {
-                document.cookie = `token=${cookies[0]}; path=/; secure;`;
-                console.log('Cookie set:', cookies);
-            }
-            console.log(result)
-
-        }
-
-
-
+      try {
+        const result = await axios.post(URI + "register", Data, {
+          withCredentials: true,
+        });
+      
+        console.log("Signup Success:", result.data);  // ✅ Log API response
+      } catch (error) {
+        console.error("Signup Error:", error.response?.data || error.message);
+      }
     }
 
+    setUname("");
+    setEmail("");
+    setPassWd("");
+    setRePass("");
+  };
 
-
-
-    return (
-        <div className='flex H-center' style={{ width: '100vw', marginTop: '10px' }}>
-            <div className="login-wrap">
-                <div className="login-html">
-                    <input id="tab-1" type="radio" name="tab" className="sign-in" defaultChecked /><label htmlFor="tab-1" className="tab">Sign In</label>
-                    <input id="tab-2" type="radio" name="tab" className="sign-up" /><label htmlFor="tab-2" className="tab">Sign Up</label>
-                    <div className="login-form">
-                        <div className="sign-in-htm">
-                            <div className="group">
-                                <label htmlFor="user" className="label">Username</label>
-                                <input id="user" value={email} onChange={(e) => setEmail(e.target.value)} type="text" className="input" />
-                            </div>
-                            <div className="group">
-                                <label htmlFor="pass" className="label">Password</label>
-                                <input id="pass" value={passWd} onChange={(e) => setPassWd(e.target.value)} type="password" className="input" data-type="password" />
-                            </div>
-                            <div className="group">
-                                <input id="check" type="checkbox" className="check" defaultChecked />
-                                <label htmlFor="check"><span className="icon"></span> Keep me Signed in</label>
-                            </div>
-                            <div className="group">
-                                <button id="loginbtn" onClick={HandleSubmit} className="button1" >Sign In</button>
-                            </div>
-                            <div className="hr"></div>
-                            <div className="foot-lnk">
-                                <a href="#forgot">Forgot Password?</a>
-                            </div>
-                        </div>
-                        <div className="sign-up-htm">
-                            <div className="group">
-                                <label htmlFor="user" className="label">Username</label>
-                                <input id="user" value={Uname} onChange={(e) => setUname(e.target.value)} type="text" className="input" />
-                            </div>
-                            <div className="group">
-                                <label htmlFor="pass" className="label">Password</label>
-                                <input id="pass" value={passWd} onChange={(e) => setPassWd(e.target.value)} type="password" className="input" data-type="password" />
-                            </div>
-                            <div className="group">
-                                <label htmlFor="pass" className="label">Repeat Password</label>
-                                <input id="pass" value={rePass} onChange={(e) => setRePass(e.target.value)} type="password" className="input" data-type="password" />
-                            </div>
-                            <div className="group">
-                                <label htmlFor="pass" className="label">Email Address</label>
-                                <input id="pass" value={email} onChange={(e) => setEmail(e.target.value)} type="text" className="input" />
-                            </div>
-                            <div className="group">
-                                <button id='signupbtn' onClick={HandleSubmit} className="button1">Sign Up</button>
-                            </div>
-                            <div className="hr"></div>
-                            <div className="foot-lnk">
-                                <label htmlFor="tab-1">Already Member?</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="w-96 bg-white shadow-lg rounded-xl p-6">
+        {/* Tab Switcher */}
+        <div className="flex justify-around border-b pb-2">
+          <button
+            onClick={() => setFormType("signin")}
+            className={`w-1/2 text-center font-bold p-2 ${
+              formType === "signin" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-600"
+            }`}
+          >
+            Sign In
+          </button>
+          <button
+            onClick={() => setFormType("signup")}
+            className={`w-1/2 text-center font-bold p-2 ${
+              formType === "signup" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-600"
+            }`}
+          >
+            Sign Up
+          </button>
         </div>
-    )
 
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+          {formType === "signup" && (
+            <input
+              type="text"
+              placeholder="Username"
+              value={Uname}
+              onChange={(e) => setUname(e.target.value)}
+              className="w-full p-2 border rounded-lg"
+            />
+          )}
+
+          <input
+            type="username"
+            placeholder="username Address"
+            value={username}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 border rounded-lg"
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={passWd}
+            onChange={(e) => setPassWd(e.target.value)}
+            className="w-full p-2 border rounded-lg"
+          />
+
+          {formType === "signup" && (
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={rePass}
+              onChange={(e) => setRePass(e.target.value)}
+              className="w-full p-2 border rounded-lg"
+            />
+          )}
+
+          <button
+            type="submit"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg"
+          >
+            {formType === "signin" ? "Sign In" : "Sign Up"}
+          </button>
+
+          {formType === "signin" && (
+            <div className="text-center text-sm text-gray-500 mt-2">
+              <a href="#" className="hover:underline">Forgot Password?</a>
+            </div>
+          )}
+        </form>
+      </div>
+    </div>
+  );
 }
-
-export default Login

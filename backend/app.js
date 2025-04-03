@@ -1,34 +1,28 @@
-import express from "express"
-import helmet from "helmet"
-import cors from 'cors'
-import { errorMiddleware } from "./middlewares/error.js"
-import dotenv from "dotenv"
-import bodyParser from "body-parser"
-import cookieParser from "cookie-parser"
+import express from "express";
+import helmet from "helmet";
+import cors from "cors";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 
+import { errorMiddleware } from "./middlewares/error.js";
+import router from "./route/auth.js";
 
 const app = express();
-dotenv.config({ path: './.env', });
+dotenv.config({ path: "./.env" });
 
-app.use(express.json());
-
-
-
-export const envMode = process.env.NODE_ENV?.trim() || 'DEVELOPMENT';
+export const envMode = process.env.NODE_ENV?.trim() || "DEVELOPMENT";
 const port = process.env.PORT || 3000;
 
-
-
-
+// ✅ Proper CORS Configuration
 const corsOptions = {
-  origin: 'http://localhost:5173', // Allow your frontend origin
-  methods: 'GET,POST,PUT,DELETE',  // Allow necessary HTTP methods
-  credentials: true,               // Allow credentials (cookies, tokens, etc.)
+  origin: "http://localhost:5173", // Your frontend
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true, // Allow cookies
 };
-
 app.use(cors(corsOptions));
 
-
+// ✅ Security: Relaxed in Development Mode
 app.use(
   helmet({
     contentSecurityPolicy: envMode !== "DEVELOPMENT",
@@ -36,21 +30,22 @@ app.use(
   })
 );
 
+// ✅ Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cors({ origin: ' * ', credentials: true }));
-app.use(cookieParser())
+app.use(cookieParser());
 
+// ✅ Static Files (should be before route handlers)
+app.use(express.static("public"));
 
-// your routes here
-// app.use(AuthRoute)
-
-app.use(express.static('public'))
+// ✅ API Routes
+app.use(router);
 
 app.get("/dashboard", (req, res) => {
-  res.send("welcome you are good user")
-})
+  res.send("Welcome! You are a verified user.");
+});
 
+// ✅ Handle 404 Errors
 app.get("*", (req, res) => {
   res.status(404).json({
     success: false,
@@ -58,10 +53,12 @@ app.get("*", (req, res) => {
   });
 });
 
+// ✅ Error Middleware
 app.use(errorMiddleware);
 
+// ✅ Server Listener
 app.listen(port, () => {
-  startBrowser();
-  console.log('Server is working on Port:' + port + ' in ' + envMode + ' Mode.\n ➜  Local:   http://localhost:' + port + '/')
-
+  console.log(
+    `Server is running on Port: ${port} in ${envMode} Mode.\n ➜  Local:   http://localhost:${port}/`
+  );
 });

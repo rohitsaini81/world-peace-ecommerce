@@ -1,7 +1,25 @@
-import React from 'react'
+import { useEffect} from "react"
+import axios from "axios"
 import "../Css/Cart.css"
 import { testimage } from './Images'
 function Cart() {
+    useEffect(() => {
+        axios.get("http://localhost:4000/cart", {
+            withCredentials: true,  // Ensure cookies are sent
+            headers: {
+                withCredentials: true,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        .then((response) => {
+            console.log("Cart Data:", response.data);
+        })
+        .catch((error) => {
+            console.error("Error fetching cart:", error);
+        });
+    }, []);
+
     return (
         <>
             <div className="flex cartBox" style={{ backgroundColor: "#ddd" }}>
