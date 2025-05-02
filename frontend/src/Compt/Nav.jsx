@@ -27,7 +27,7 @@ function Nav() {
       <div className="half-W">
         <ul>
           <Link to="/">
-            <li className="li">World Peace</li>
+            <li className="li">Tutabaale</li>
           </Link>
         </ul>
       </div>

@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { brandImages } from './Images';
 import "../Css/Home.css"
 
 
 export default function Home() {
-  const text1 = "Shop the Latest Trends and Redefine Your Style Today."
+
+  
+  
+  
+
+  const text1 = "We are proudly humbled to have you not only as a customer but as a Family Member in Our Fashion Movement."
   const text2 = "Browse Our Shop"
-  const text3 = "Share your passion for The Peace."
-  const text4 = "Explore best sellers and classic favorites."
+  const text3 = "Join The Fashion Movement!" 
+  const text4 = "Explore best quality products and classic favorites."
   return (
     <div className='flex-c' style={{ marginTop: 100 }}>
       <Template text1={text1} text2={text2} button="" paddingg={{ padding: "20" }} />
@@ -17,29 +22,45 @@ export default function Home() {
         })}
       </CustomCarousel>
       <Template mT={40} text1={text3} text2={text4} button="SHOP NOW" padding="0" />
-
     </div>
   )
 }
+
 
 
 
 function Template(props) {
-  // console.log(props.mT)
-  if(props == undefined || props==null){
-return <div></div>
-  }
+  if (!props) return <div></div>;
+
+  const { mT, paddingg, text1, text2, button } = props;
+  const marginTop = mT || "2rem"; // Default margin if not provided
+
   return (
-    <div className='flex-c H-center V-center full-W half-H' style={{marginTop:props.mT}}>
-      <div><p style={props.paddingg}>{props.text1}</p></div>
-      <div><p>{props.text2}</p></div>
-      {
-        props.button != "" ?
-          <div><button className='button'>{props.button}</button></div> : <hr />
-      }
+    <div
+      className="w-full h-1/2 flex flex-col justify-center items-center gap-4 text-center"
+      style={{ marginTop }}
+    >
+      {text1 && (
+        <p className="text-lg font-medium" style={paddingg}>
+          {text1}
+        </p>
+      )}
+      {text2 && (
+        <p className="text-base text-gray-700">
+          {text2}
+        </p>
+      )}
+      {button ? (
+        <button className="mt-4 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+          {button}
+        </button>
+      ) : (
+        <hr className="w-1/2 border-gray-300 mt-4" />
+      )}
     </div>
-  )
+  );
 }
+
 
 
 

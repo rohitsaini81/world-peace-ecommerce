@@ -16,6 +16,8 @@ import Preview from "./Compt/Preview.jsx"
 // import { useEffect } from 'react'
 import { Provider } from "react-redux";
 import store from "./Redux/Store.jsx"; 
+import AboutSection from './Compt/About.jsx'
+import VideoSection from './Compt/Videos.jsx'
 
 
 // const __uri = "http://localhost:4000/scrape"
@@ -28,7 +30,7 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<MainHome />} />
-          <Route path="/about" element={<Home />} />
+          <Route path="/about" element={<AboutSection margin={"50"}/>} />
           <Route path="/login" element={<main id='main'><Login /></main>} />
           <Route path='/items/:category' element={<main id='main'><Items /></main>} />
           <Route path='/item/:id' element={<main id='main'><Preview /></main>} />
@@ -49,6 +51,8 @@ export function MainHome() {
     <main id='main'>
       <Home />
       <Collections />
+      <VideoSection />
+      <AboutSection />
     </main>
   )
 }
