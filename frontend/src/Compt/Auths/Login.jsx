@@ -53,7 +53,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex w-[100vw] items-center justify-center h-screen bg-gray-100">
       <div className="w-96 bg-white shadow-lg rounded-xl p-6">
         {/* Tab Switcher */}
         <div className="flex justify-around border-b pb-2">

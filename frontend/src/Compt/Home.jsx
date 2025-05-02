@@ -26,6 +26,9 @@ export default function Home() {
 
 function Template(props) {
   // console.log(props.mT)
+  if(props == undefined || props==null){
+return <div></div>
+  }
   return (
     <div className='flex-c H-center V-center full-W half-H' style={{marginTop:props.mT}}>
       <div><p style={props.paddingg}>{props.text1}</p></div>

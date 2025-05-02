@@ -1,99 +1,83 @@
-// import React from 'react'
-import {  Link, useParams } from 'react-router-dom';
-// import Card from './Card';
-import { useEffect, useState } from 'react';
-import axios from 'axios'
-// import { testimage2 } from './Images';
-import { sendScrapeRequest } from '../App';
-// let item_data;
+import { useEffect, useState } from "react";
+import axios from "axios";
+import "../Css/Items.css";
+
 function Items() {
-  const { category } = useParams();
-  const targetUrl = 'http://localhost:4000/scrape';
+  const targetUrl = "https://dummyjson.com/products";
+  const [items, setItems] = useState([]);
 
-  const [items,setItems] = useState([])
-  useEffect(()=>{
-    async function sendScrapeRequest() {
+  useEffect(() => {
+    async function fetchData() {
       try {
-          const response = await axios.post(targetUrl, {
-              searchQuery: category,
-              minPrice: 0,
-              maxPrice: 80000,
-              // brand: "HP"
-          }, {
-              headers: {
-                  "Content-Type": "application/json"
-              }
-          });
-  
-          // console.log('Response:', response.data);
-          setItems(response.data._data)
-          return response
+        const response = await axios.get(targetUrl);
+        setItems(response.data.products);
       } catch (error) {
-        console.log("error ?")
-          console.log ('Error:', error.response ? error.response.data : error.message);
+        console.error("Error fetching data:", error.response ? error.response.data : error.message);
       }
-  }
-  sendScrapeRequest();
-  },[])
+    }
+    fetchData();
+  }, []);
 
-
-  console.log('Response:', items);
-
-
-  return (<>
-    <div className='flex just-items' style={{ width: '80vw', marginTop: "6em", overflowX: "scroll" }}>
-      {/* <Link to="/item/:id"><ItemCard /> </Link> */}
-      {
-        items.length>0?items.map((obj,index) =><ItemCard key={index} title={obj.title} image={obj.image} price={obj.price}/>):
-        <div></div>
-      }
-
-      
+  return items.length < 1 ? (
+    <div>Loading...</div>
+  ) : (
+    <div className="container">
+      <div className="flex just-items" style={{ width: "80vw", marginTop: "6em", overflowX: "scroll" }}>
+        {items.map((obj) => (
+          <ItemCard
+            key={obj.id}
+            id={obj.id}
+            title={obj.title}
+            image={obj.thumbnail}
+            price={obj.price}
+            category={obj.category}
+            product={obj} // Pass full object
+          />
+        ))}
+      </div>
     </div>
-
-
-    <div className='flex just-items' style={{ width: '80vw', marginTop: "6em", overflowX: "scroll" }}>
-      {/* <Link to="/item/:id"><ItemCard /> </Link> */}
-
-      {
-        items.length>0?items.map((obj,index) =><ItemCard key={index} title={obj.title} image={obj.image} price={obj.price}/>):
-        <div></div>
-      }
-    </div>
-  </>
-  )
+  );
 }
 
+export default Items;
 
 
 
-import "../Css/Items.css"
 
-function ItemCard(props) {
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../Redux/cartSlice"; // Make sure this path is correct
+import "../Css/Items.css";
+
+function ItemCard({ id, image, title, price, category, product }) {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    console.log("Adding to cart:", product);
+    dispatch(addToCart({ ...product, quantity: 1 }));  };
+
   return (
-
     <div className="itemCard boxShadow">
+      {/* Image Section */}
       <div className="part" style={{ height: "50%" }}>
-        <img src={props.image} style={{ objectFit: "cover" }} alt="image" />
+        <img src={image} style={{ objectFit: "cover", width: "100%", height: "100%" }} alt={title} />
       </div>
+
+      {/* Details Section */}
       <div className="part detail-part" style={{ height: "50%" }}>
-        <h4 className='left-title'>_____________</h4>
-        <p className='p-title'>{props.title}</p>
-        <div className="left-title price"><p>{props.price}</p></div>
-        <div className="left-title size">
-          <span className='span-m'>SIZE</span>
-          <div className="flex">
-            <span className="span-m">7,</span>
-            <span className="span-m">8,</span>
-            <span className="span-m">9,</span>
-            <span className="span-m">10</span>
-          </div>
+        <h4 className="left-title">{category || "Category"}</h4>
+        <p className="p-title">{title || "Product Title"}</p>
+        <div className="left-title price">
+          <p>{price ? `$${price}` : "Price Not Available"}</p>
+        </div>
+
+        {/* Buttons */}
+        <div className="button-container">
+          <button className="add-to-cart" onClick={handleAddToCart}>🛒 Add to Cart</button>
+          <Link to={`/product/${id}`} className="preview-btn">🔍 Preview</Link>
         </div>
       </div>
     </div>
-
-  )
+  );
 }
 
-
-export default Items;

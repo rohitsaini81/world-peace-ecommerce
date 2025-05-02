@@ -14,14 +14,16 @@ import Items from './Compt/Items'
 import Cart from './Compt/Cart.jsx'
 import Preview from "./Compt/Preview.jsx"
 // import { useEffect } from 'react'
+import { Provider } from "react-redux";
+import store from "./Redux/Store.jsx"; 
 
 
-const __uri = "http://localhost:4000/scrape"
+// const __uri = "http://localhost:4000/scrape"
 function App() {
 
   return (
     <>
-
+    <Provider store={store}>
       <BRouter>
         <Nav />
         <Routes>
@@ -34,6 +36,7 @@ function App() {
           {/* <Route path="*" element={<Counter1 />} />  */}
         </Routes>
       </BRouter>
+    </Provider>
     </>
   )
 }
